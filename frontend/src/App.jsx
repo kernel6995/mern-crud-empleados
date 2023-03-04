@@ -1,59 +1,62 @@
 import './App.css';
 
-// router
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
+// React Router V6
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-/* existing imports */
-import Home from './pages/Home';
-import NewEmployee from './pages/NewEmployee';
+// Layouts
+import NavBar from './app/components/NavBar';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/new",
-    element: <NewEmployee />,
-  },
-]);
+// Pages
+import Home from './app/pages/Home';
+import Employees from './app/pages/Employees';
+import InfoEmployee from './app/pages/InfoEmployee';
+import NewEmployee from './app/pages/NewEmployee';
+import EditEmployee from './app/pages/EditEmployee';
+import ErrorPage from './app/pages/ErrorPage';
 
 function App() {
   return (
-    <div>
-      <nav className="bg-stone-800 text-stone-100 min-w-full flex justify-between items-center p-4">
-        <a href="/" title="ir a inicio">
-          <h1 className="text-3xl font-bold uppercase">titulo principal</h1>
-          <h2 className="text-xl font-bold">subtitulo - slogan</h2>
-        </a>
+    <BrowserRouter>
+      <div className='flex flex-col justify-between min-h-screen'>
+        <NavBar />
 
-        {
-          <button>➰</button> ||
-          <button>〰</button>
-        }
+        <main className="p-4 md:px-64">
+          <Routes>
+            <Route path='/' element={
+              <Home />
+            }></Route>
 
-        <ul className="flex gap-4">
-          <li><a href="/home" className="font-bold hover:bg-stone-100 px-4 py-2 hover:text-stone-900" title="ir a inicio">Inicio</a></li>
-          <li><a href="/new" className="font-bold hover:bg-stone-100 px-4 py-2 hover:text-stone-900" title="ir a empleados">Empleados</a></li>
-          <li><a href="/info" className="font-bold hover:bg-stone-100 px-4 py-2 hover:text-stone-900" title="ir a informacion">Información</a></li>
-        </ul>
-      </nav>
+            <Route path='/inicio' element={
+              <Home />
+            }></Route>
 
-      <main className="min-h-screen bg-cyan-500">
-        <RouterProvider router={router} />
-      </main>
+            <Route path='/empleados' element={
+              <Employees />
+            }></Route>
 
-      <footer className="bg-stone-800 text-white text-center p-4">
-        <address>copyright@kernel6995</address>
-      </footer>
-    </div>
+            <Route path='/info_empleado/:id' element={
+              <InfoEmployee />
+            }></Route>
+
+            <Route path='/nuevo_empleado' element={
+              <NewEmployee />
+            }></Route>
+
+            <Route path={'/editar_empleado/:id'} element={
+              <EditEmployee />
+            }></Route>
+
+            <Route path={'/*'} element={
+              <ErrorPage />
+            }></Route>
+          </Routes>
+        </main>
+
+        <footer className="bg-stone-800 text-white text-center p-4">
+          <address>copyright@kernel6995</address>
+        </footer>
+      </div>
+    </BrowserRouter>
   );
 }
 
